@@ -1,5 +1,5 @@
-#!/bin/bash
-
-for ((i=0; i<10; i++)); do
-	echo $i
+#!/bin/sh
+for VAL in 0 1 2
+do
+	echo "VAL = ${VAL}"
 done
