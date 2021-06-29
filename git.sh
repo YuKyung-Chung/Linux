@@ -1,37 +1,48 @@
 #!/bin/bash
 Today=$(date)
+clear
 echo "스마트 팩토리 학우 여러분 환영합니다"
-if [ -e '/usr/bin/git' ]
-   then
-      git config --global user.name yuKyung-chung
-      git config --global user.email kadie@naver.com
-      echo "설치된 깃을 발견했습니다."
-   else
-      echo "깃을 설치합니다..."
-      sudo apt-get install git -y
-      git config --global user.name yuKyung-chung
-      git config --global user.email kadie@naver.com
-      
-      
+echo "배우신 내용을 입력하세요. 입력하지 않고 엔터를 누르면 현재 시간이 등록됩니다."
+read MSG
 
+
+if [ -e '/usr/bin/git' ]
+	then
+		echo "설치된 깃을 발견했습니다."
+		git config --global user.name yukyung-chung 
+		git config --global user.email kadie@naver.com
+	else
+		echo "깃을 설치합니다..."
+		sudo apt-get install git -y
 fi
 
+
+
 if [ -e './.git' ] 
-   then
-      git add .
-      git commit -m "$Today"
+	then
+		git add .
+		git commit -m "${MSG:-$Today}"
+		if [ -e '~/.git-credentials' ] 
+			then 
+				echo "로그인 정보가 저장되어 있습니다."
+			else
+				echo "로그인 정보를 저장합니다."
+				git config credential.helper store
+		fi
 
-      echo ==========================================
-      echo ==========================================
-      echo ==========================================
-      git push
-      git config credential.helper store
-      echo "커밋&푸시 완료!"
+		echo ================================================================
+		echo =========="자동 git-설치&커밋&푸시 쉘"===========================
+		echo ========================================================="by 김보성"
+		git push
+		git pull
 
-   else
-      git clone https://github.com/YuKyung-Chung/Linux.git
-      echo "저장소를 받아왔습니다. 이제부터 이 곳에 파일을 저장하시면 됩니다."
-      echo "이 파일과 지금까지 하신 작업물을 생성된 저장소에 넣고 다시 한번 이 쉘을 실행해 주세요."
-      echo "감사합니다"
-      
+		echo "프로세스 완료. 문제가 있으시다면 해당 쉘 파일을 뜯어봅시다."
+
+	else
+		git clone https://github.com/YuKyung-Chung/Linux.git
+		mv ./git.sh ./Linux/git.sh
+		
+		echo "저장소를 받아왔습니다. 이제부터 실행하실때마다 커밋&푸시 됩니다."
+		
+		
 fi
